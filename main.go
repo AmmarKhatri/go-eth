@@ -21,7 +21,7 @@ type LogTransfer struct {
 
 func main() {
 	// first we connect to the RPC provider for Ethereum mainnet (please include your own)
-	client, err := ethclient.Dial("https://mainnet.infura.io/v3/b3eec657d195488b902512ae0f6e7654")
+	client, err := ethclient.Dial("INFURA_LINK")
 	if err != nil {
 		log.Println(err)
 	}
