@@ -30,7 +30,7 @@ var (
 
 // MainMetaData contains all meta data concerning the Main contract.
 var MainMetaData = &bind.MetaData{
-	ABI: "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"tokenOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"}]",
+	ABI: "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"}]",
 }
 
 // MainABI is the input ABI used to generate the binding from.
@@ -248,27 +248,27 @@ func (it *MainApprovalIterator) Close() error {
 
 // MainApproval represents a Approval event raised by the Main contract.
 type MainApproval struct {
-	TokenOwner common.Address
-	Spender    common.Address
-	Tokens     *big.Int
-	Raw        types.Log // Blockchain specific contextual infos
+	Owner   common.Address
+	Spender common.Address
+	Value   *big.Int
+	Raw     types.Log // Blockchain specific contextual infos
 }
 
 // FilterApproval is a free log retrieval operation binding the contract event 0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925.
 //
-// Solidity: event Approval(address indexed tokenOwner, address indexed spender, uint256 tokens)
-func (_Main *MainFilterer) FilterApproval(opts *bind.FilterOpts, tokenOwner []common.Address, spender []common.Address) (*MainApprovalIterator, error) {
+// Solidity: event Approval(address indexed owner, address indexed spender, uint256 value)
+func (_Main *MainFilterer) FilterApproval(opts *bind.FilterOpts, owner []common.Address, spender []common.Address) (*MainApprovalIterator, error) {
 
-	var tokenOwnerRule []interface{}
-	for _, tokenOwnerItem := range tokenOwner {
-		tokenOwnerRule = append(tokenOwnerRule, tokenOwnerItem)
+	var ownerRule []interface{}
+	for _, ownerItem := range owner {
+		ownerRule = append(ownerRule, ownerItem)
 	}
 	var spenderRule []interface{}
 	for _, spenderItem := range spender {
 		spenderRule = append(spenderRule, spenderItem)
 	}
 
-	logs, sub, err := _Main.contract.FilterLogs(opts, "Approval", tokenOwnerRule, spenderRule)
+	logs, sub, err := _Main.contract.FilterLogs(opts, "Approval", ownerRule, spenderRule)
 	if err != nil {
 		return nil, err
 	}
@@ -277,19 +277,19 @@ func (_Main *MainFilterer) FilterApproval(opts *bind.FilterOpts, tokenOwner []co
 
 // WatchApproval is a free log subscription operation binding the contract event 0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925.
 //
-// Solidity: event Approval(address indexed tokenOwner, address indexed spender, uint256 tokens)
-func (_Main *MainFilterer) WatchApproval(opts *bind.WatchOpts, sink chan<- *MainApproval, tokenOwner []common.Address, spender []common.Address) (event.Subscription, error) {
+// Solidity: event Approval(address indexed owner, address indexed spender, uint256 value)
+func (_Main *MainFilterer) WatchApproval(opts *bind.WatchOpts, sink chan<- *MainApproval, owner []common.Address, spender []common.Address) (event.Subscription, error) {
 
-	var tokenOwnerRule []interface{}
-	for _, tokenOwnerItem := range tokenOwner {
-		tokenOwnerRule = append(tokenOwnerRule, tokenOwnerItem)
+	var ownerRule []interface{}
+	for _, ownerItem := range owner {
+		ownerRule = append(ownerRule, ownerItem)
 	}
 	var spenderRule []interface{}
 	for _, spenderItem := range spender {
 		spenderRule = append(spenderRule, spenderItem)
 	}
 
-	logs, sub, err := _Main.contract.WatchLogs(opts, "Approval", tokenOwnerRule, spenderRule)
+	logs, sub, err := _Main.contract.WatchLogs(opts, "Approval", ownerRule, spenderRule)
 	if err != nil {
 		return nil, err
 	}
@@ -323,7 +323,7 @@ func (_Main *MainFilterer) WatchApproval(opts *bind.WatchOpts, sink chan<- *Main
 
 // ParseApproval is a log parse operation binding the contract event 0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925.
 //
-// Solidity: event Approval(address indexed tokenOwner, address indexed spender, uint256 tokens)
+// Solidity: event Approval(address indexed owner, address indexed spender, uint256 value)
 func (_Main *MainFilterer) ParseApproval(log types.Log) (*MainApproval, error) {
 	event := new(MainApproval)
 	if err := _Main.contract.UnpackLog(event, "Approval", log); err != nil {
@@ -402,15 +402,15 @@ func (it *MainTransferIterator) Close() error {
 
 // MainTransfer represents a Transfer event raised by the Main contract.
 type MainTransfer struct {
-	From   common.Address
-	To     common.Address
-	Tokens *big.Int
-	Raw    types.Log // Blockchain specific contextual infos
+	From  common.Address
+	To    common.Address
+	Value *big.Int
+	Raw   types.Log // Blockchain specific contextual infos
 }
 
 // FilterTransfer is a free log retrieval operation binding the contract event 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef.
 //
-// Solidity: event Transfer(address indexed from, address indexed to, uint256 tokens)
+// Solidity: event Transfer(address indexed from, address indexed to, uint256 value)
 func (_Main *MainFilterer) FilterTransfer(opts *bind.FilterOpts, from []common.Address, to []common.Address) (*MainTransferIterator, error) {
 
 	var fromRule []interface{}
@@ -431,7 +431,7 @@ func (_Main *MainFilterer) FilterTransfer(opts *bind.FilterOpts, from []common.A
 
 // WatchTransfer is a free log subscription operation binding the contract event 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef.
 //
-// Solidity: event Transfer(address indexed from, address indexed to, uint256 tokens)
+// Solidity: event Transfer(address indexed from, address indexed to, uint256 value)
 func (_Main *MainFilterer) WatchTransfer(opts *bind.WatchOpts, sink chan<- *MainTransfer, from []common.Address, to []common.Address) (event.Subscription, error) {
 
 	var fromRule []interface{}
@@ -477,7 +477,7 @@ func (_Main *MainFilterer) WatchTransfer(opts *bind.WatchOpts, sink chan<- *Main
 
 // ParseTransfer is a log parse operation binding the contract event 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef.
 //
-// Solidity: event Transfer(address indexed from, address indexed to, uint256 tokens)
+// Solidity: event Transfer(address indexed from, address indexed to, uint256 value)
 func (_Main *MainFilterer) ParseTransfer(log types.Log) (*MainTransfer, error) {
 	event := new(MainTransfer)
 	if err := _Main.contract.UnpackLog(event, "Transfer", log); err != nil {
